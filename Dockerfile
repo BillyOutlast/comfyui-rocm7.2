@@ -35,6 +35,8 @@ RUN /opt/comfyui-venv/bin/pip install \
     https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchaudio-2.8.0%2Brocm7.2.0.git6e1c7fe9-cp312-cp312-linux_x86_64.whl \
     https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchvision-0.24.0%2Brocm7.2.0.gitb919bd0c-cp312-cp312-linux_x86_64.whl
 
+
+    
 # Install common Python-level dependencies that PyTorch and friends rely on
 RUN /opt/comfyui-venv/bin/pip install \
     filelock \
@@ -43,6 +45,14 @@ RUN /opt/comfyui-venv/bin/pip install \
     networkx \
     jinja2 \
     fsspec
+
+
+# Install flash-attention (both CK and Triton backends) into the venv
+RUN git clone https://github.com/Dao-AILab/flash-attention.git /opt/flash-attention && \
+        cd /opt/flash-attention && \
+        /opt/comfyui-venv/bin/pip install ninja && \
+        FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE FLASH_ATTENTION_SKIP_CK_BUILD=FALSE \
+            /opt/comfyui-venv/bin/python setup.py install
 
 
 
