@@ -7,7 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: rocm7.2-ubuntu24.04-py3.12-pytorch2.8.0-comfyui
+  IMAGE_NAME: comfyui-rocm7.2-ubuntu24.04-py3.12-pytorch2.8.0
+  REGISTRY_IMAGE: ghcr.io/BillyOutlast/comfyui-rocm7
 
 jobs:
   build:
@@ -34,24 +35,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
-          push: false
+          push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ${{ env.IMAGE_NAME }}:latest
-            ${{ env.IMAGE_NAME }}:${{ github.sha }}
-
-      # To push to GitHub Container Registry, set push: true and adjust tags, e.g.:
-      # - name: Build and push Docker image
-      #   if: github.event_name != 'pull_request'
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     file: ./Dockerfile
-      #     push: true
-      #     tags: |
-      #       ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
-      #       ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY_IMAGE }}:latest
+            ${{ env.REGISTRY_IMAGE }}:${{ github.sha }}
