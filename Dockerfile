@@ -1,11 +1,11 @@
 # ROCm 7.2 + Ubuntu 24.04 + Python 3.12 + PyTorch 2.8.0 + ComfyUI
 
-FROM rocm/dev-ubuntu-24.04:7.2
+FROM rocm/dev-ubuntu-24.04:7.2-complete
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    LD_LIBRARY_PATH=/opt/rocm/lib:/opt/rocm/miopen/lib:${LD_LIBRARY_PATH}
+    LD_LIBRARY_PATH=/opt/rocm/lib:/opt/rocm/miopen/lib
 
 # System dependencies
 RUN apt-get update && \
@@ -18,6 +18,7 @@ RUN apt-get update && \
         wget \
         migraphx \
         miopen-hip \
+        rocsolver \
         libssl-dev \
         libffi-dev && \
     rm -rf /var/lib/apt/lists/*
