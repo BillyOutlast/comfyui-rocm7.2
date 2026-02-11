@@ -4,7 +4,8 @@ FROM rocm/dev-ubuntu-24.04:7.2
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
+    PIP_NO_CACHE_DIR=1 \
+    LD_LIBRARY_PATH=/opt/rocm/lib:/opt/rocm/miopen/lib:${LD_LIBRARY_PATH}
 
 # System dependencies
 RUN apt-get update && \
@@ -15,6 +16,8 @@ RUN apt-get update && \
         git \
         ca-certificates \
         wget \
+        migraphx \
+        miopen-hip \
         libssl-dev \
         libffi-dev && \
     rm -rf /var/lib/apt/lists/*
