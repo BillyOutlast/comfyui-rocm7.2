@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  comfyui:
+    container_name: comfyui-rocm7.2
+    build: .
+    image: rocm7.2-ubuntu24.04-py3.12-pytorch2.8.0-comfyui:latest
+    restart: unless-stopped
+    ports:
+      - "8188:8188"
+    environment:
+      # Adjust as needed for your ROCm setup
+      #- HIP_VISIBLE_DEVICES=0
+      #- HSA_OVERRIDE_GFX_VERSION=11.0.0
+    # Typical ROCm device mappings; ensure these exist on the host
+    devices:
+      - "/dev/kfd:/dev/kfd"
+      - "/dev/dri:/dev/dri"
+    group_add:
+      - video
+    shm_size: "8g"
+    ipc: host
+    # Optionally mount persistent storage for models/config
+    # volumes:
+    #   - ./comfyui-data:/opt/ComfyUI

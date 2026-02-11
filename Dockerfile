@@ -52,7 +52,34 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI.git /opt/ComfyUI
 WORKDIR /opt/ComfyUI
 
 RUN /opt/comfyui-venv/bin/pip install --upgrade pip && \
-    /opt/comfyui-venv/bin/pip install -r requirements.txt
+    /opt/comfyui-venv/bin/pip install \
+        comfyui-frontend-package==1.38.13 \
+        comfyui-workflow-templates==0.8.38 \
+        comfyui-embedded-docs==0.4.1 \
+        torchsde \
+        "numpy>=1.25.0" \
+        einops \
+        "transformers>=4.50.3" \
+        "tokenizers>=0.13.3" \
+        sentencepiece \
+        "safetensors>=0.4.2" \
+        "aiohttp>=3.11.8" \
+        "yarl>=1.18.0" \
+        pyyaml \
+        Pillow \
+        scipy \
+        tqdm \
+        psutil \
+        alembic \
+        SQLAlchemy \
+        "av>=14.2.0" \
+        "comfy-kitchen>=0.2.7" \
+        "comfy-aimdo>=0.1.8" \
+        requests \
+        "kornia>=0.7.1" \
+        spandrel \
+        "pydantic~=2.0" \
+        "pydantic-settings~=2.0"
 
 EXPOSE 8188
 
