@@ -52,12 +52,18 @@ RUN /opt/comfyui-venv/bin/pip install \
     packaging
 
 
-# Install flash-attention (both CK and Triton backends) into the venv
-RUN git clone https://github.com/Dao-AILab/flash-attention.git /opt/flash-attention && \
+# Optionally install flash-attention (requires HIP GPU at build time)
+ARG BUILD_FLASH_ATTENTION=false
+RUN if [ "$BUILD_FLASH_ATTENTION" = "true" ]; then \
+        echo "Building flash-attention with HIP support" && \
+        git clone https://github.com/Dao-AILab/flash-attention.git /opt/flash-attention && \
         cd /opt/flash-attention && \
         /opt/comfyui-venv/bin/pip install ninja && \
         FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE FLASH_ATTENTION_SKIP_CK_BUILD=FALSE \
-            /opt/comfyui-venv/bin/python setup.py install
+          /opt/comfyui-venv/bin/python setup.py install; \
+    else \
+        echo "Skipping flash-attention build (BUILD_FLASH_ATTENTION=$BUILD_FLASH_ATTENTION)"; \
+    fi
 
 
 

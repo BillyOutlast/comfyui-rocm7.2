@@ -3,7 +3,10 @@ version: "3.9"
 services:
   comfyui:
     container_name: comfyui-rocm7.2
-    build: .
+    build:
+      context: .
+      args:
+        BUILD_FLASH_ATTENTION: "true"
     image: rocm7.2-ubuntu24.04-py3.12-pytorch2.8.0-comfyui:latest
     restart: unless-stopped
     ports:
