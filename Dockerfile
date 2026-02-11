@@ -28,11 +28,21 @@ RUN python -m venv /opt/comfyui-venv && \
     /opt/comfyui-venv/bin/pip install --upgrade pip
 
 # Install specific ROCm 7.2 wheels for torch, torchaudio, triton, and torchvision
-RUN /opt/comfyui-venv/bin/pip install \
+# Use --no-deps to avoid pip trying to resolve triton to a different version
+RUN /opt/comfyui-venv/bin/pip install --no-deps \
     https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torch-2.8.0%2Brocm7.2.0.lw.gitbf943426-cp312-cp312-linux_x86_64.whl \
     https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchaudio-2.8.0%2Brocm7.2.0.git6e1c7fe9-cp312-cp312-linux_x86_64.whl \
     https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/triton-3.5.1%2Brocm7.2.0.gita272dfa8-cp312-cp312-linux_x86_64.whl \
     https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchvision-0.24.0%2Brocm7.2.0.gitb919bd0c-cp312-cp312-linux_x86_64.whl
+
+# Install common Python-level dependencies that PyTorch and friends rely on
+RUN /opt/comfyui-venv/bin/pip install \
+    filelock \
+    typing-extensions \
+    sympy \
+    networkx \
+    jinja2 \
+    fsspec
 
 
 
