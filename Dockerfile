@@ -44,7 +44,8 @@ RUN /opt/comfyui-venv/bin/pip install \
     sympy \
     networkx \
     jinja2 \
-    fsspec
+    fsspec \
+    packaging
 
 
 # Install flash-attention (both CK and Triton backends) into the venv
