@@ -8,7 +8,7 @@ on:
 
 env:
   IMAGE_NAME: comfyui-rocm7.2-ubuntu24.04-py3.12-pytorch2.8.0
-  REGISTRY_IMAGE: ghcr.io/BillyOutlast/comfyui-rocm7
+  REGISTRY_IMAGE: ghcr.io/billyoutlast/comfyui-rocm7
 
 jobs:
   build:
